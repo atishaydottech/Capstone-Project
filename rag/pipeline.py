@@ -23,6 +23,7 @@ from shared.embedder import embed_texts, embed_query
 from shared.llm import generate_answer
 from chunking import section_wise
 from vectordb.chroma_store import ChromaStore
+from retrieval.hybrid import HybridSearch
 
 PROGRAMS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "programs")
 
@@ -49,12 +50,12 @@ def build_pipeline(reset=True):
     embeddings = embed_texts(texts)
     store = ChromaStore(collection_name="grantmatch", reset=reset)
     store.add(chunks, embeddings)
-    return store, chunks
+    hybrid = HybridSearch(chunks, store, embed_query)
+    return store, chunks, hybrid
 
 
-def ask(store, question, k=5):
-    query_embedding = embed_query(question)
-    results = store.search(query_embedding, k=k)
+def ask(hybrid, question, k=5):
+    results = hybrid.search(question, k=k)
     context = "\n\n---\n\n".join(r["text"] for r in results)
     user_msg = USER_MSG.format(context=context, question=question)
 
@@ -87,9 +88,9 @@ def main():
     args = parser.parse_args()
 
     print("Building pipeline\n")
-    store, chunks = build_pipeline()
+    store, chunks, hybrid = build_pipeline()
     print(f"Indexed {len(chunks)} chunks\n")
-    ask(store, args.question, k=args.k)
+    ask(hybrid, args.question, k=args.k)
 
 
 if __name__ == "__main__":
