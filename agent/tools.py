@@ -21,11 +21,9 @@ from pydantic_ai import ModelRetry
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from shared.config import COLLECTION_NAME, PERSIST_DIR
 from shared.embedder import embed_query
 from vectordb.chroma_store import ChromaStore
-
-COLLECTION_NAME = "grantmatch"
-PERSIST_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "chroma_data")
 
 _store = None
 
