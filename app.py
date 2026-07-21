@@ -1,1 +1,93 @@
-# Streamlit UI
+"""Streamlit UI — reference-only in spirit from single-agent-lab/app.py (which
+is Gradio); this is a fresh Streamlit build per the design doc, not a port.
+
+Left: the student's question. Right: the validated typed answer. Below: the
+ReAct trace (Thought / Action / Observation), so the retriever-vs-web-search
+choice and the citation are visible, not a black box.
+
+Run:  streamlit run app.py
+"""
+
+from __future__ import annotations
+
+import streamlit as st
+
+from agent.schemas import EligibilityAnswer, NeedMoreInfo
+from agent.trace import run
+
+ICON = {"thought": "💭", "action": "🔧", "observation": "📡", "retry": "↻", "final": "✅"}
+
+EXAMPLES = [
+    "I have a 3.4 GPA, live in California, and this is my first undergraduate degree. Am I eligible for Cal Grant A?",
+    "I've lived in New Jersey for 3 years, enrolled full-time, household income $50,000. Am I eligible for NJ TAG?",
+    "I graduated from a Georgia high school with a 3.2 GPA. Am I eligible for the HOPE Scholarship?",
+    "Am I eligible for a scholarship?",
+]
+
+
+def render_answer(output):
+    if isinstance(output, EligibilityAnswer):
+        badge = {"yes": "🟢 Eligible", "no": "🔴 Not eligible", "partial": "🟡 Partially eligible"}[output.eligible]
+        st.markdown(f"### {badge} — {output.program}")
+        st.markdown(f"**Cited clause** · {output.cited_clause}")
+        st.caption(f"Source: {output.cited_source}")
+        st.markdown(f"**Reasoning** · {output.reasoning}")
+        if output.caveats:
+            st.markdown("**Caveats**")
+            for c in output.caveats:
+                st.markdown(f"- {c}")
+    elif isinstance(output, NeedMoreInfo):
+        st.markdown("### 🤔 Need more info")
+        st.markdown(f"**Question** · {output.question}")
+        st.caption(f"Why: {output.reason}")
+    else:
+        st.code(repr(output))
+
+
+def render_trace(steps, tool_sequence):
+    for s in steps:
+        icon = ICON.get(s.kind, "•")
+        with st.container(border=True):
+            st.markdown(f"**{icon} {s.title}**")
+            st.text(s.body)
+    st.caption("Tool sequence: " + (" → ".join(tool_sequence) or "(no tools called)"))
+
+
+def main():
+    st.set_page_config(page_title="GrantMatch", page_icon="🎓", layout="wide")
+    st.title("🎓 GrantMatch")
+    st.caption("Tells students which scholarships and grants they actually qualify for, citing the exact rule behind each answer.")
+
+    query = st.text_area("Describe your situation and ask about a program", height=100)
+
+    st.write("Try one:")
+    cols = st.columns(len(EXAMPLES))
+    for col, example in zip(cols, EXAMPLES):
+        if col.button(example[:40] + "...", use_container_width=True):
+            query = example
+            st.session_state["query"] = example
+
+    query = st.session_state.get("query", query)
+    go = st.button("Ask", type="primary")
+
+    if go and query.strip():
+        with st.spinner("Checking eligibility..."):
+            try:
+                steps, output, tool_sequence, _ = run(query)
+            except Exception as e:
+                st.error(f"{type(e).__name__}: {e}")
+                return
+
+        answer_col, trace_col = st.columns([2, 3])
+        with answer_col:
+            st.subheader("Answer")
+            render_answer(output)
+        with trace_col:
+            st.subheader("Agent trace")
+            render_trace(steps, tool_sequence)
+    elif go:
+        st.warning("Type a question first.")
+
+
+if __name__ == "__main__":
+    main()

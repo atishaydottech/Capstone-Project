@@ -1,0 +1,10 @@
+chromadb
+openai
+pydantic
+pydantic-ai
+pypdf
+python-dotenv
+rank-bm25
+requests
+numpy
+streamlit

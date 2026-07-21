@@ -71,8 +71,10 @@ agent.tool_plain(retries=2)(retriever_tool)
 agent.tool_plain(retries=2)(web_search)
 
 # Guardrail: bound the loop so a vague or multi-program question can't spiral
-# into an unbounded number of tool calls. Separate from per-tool `retries`.
-LIMITS = UsageLimits(request_limit=6, tool_calls_limit=10)
+# into an unbounded number of requests. Separate from per-tool `retries`.
+# (pydantic-ai's UsageLimits dropped tool_calls_limit after single-agent-lab
+# was written; request_limit is what's left to cap total loop iterations.)
+LIMITS = UsageLimits(request_limit=6)
 
 
 @agent.output_validator

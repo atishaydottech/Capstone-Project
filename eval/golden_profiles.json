@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "id": "cal_grant_a_eligible",
+    "question": "I have a 3.4 high school GPA, live in California, am a US citizen, and this would be my first undergraduate degree. My family's income and assets are within CSAC's published limits. Am I eligible for Cal Grant A?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "cal_grant_a_gpa_too_low",
+    "question": "My high school GPA is 2.5, I'm a California resident and US citizen, first undergraduate degree, income within limits. Am I eligible for Cal Grant A specifically?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "nj_tag_eligible",
+    "question": "I've lived in New Jersey for 3 years, I'm enrolled full-time at a NJ college in an approved undergraduate program, my household income is $50,000, and I haven't earned a Bachelor's degree yet. Am I eligible for the NJ Tuition Aid Grant?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "nj_tag_residency_fail",
+    "question": "I just moved to New Jersey 3 months ago and enrolled full-time at a NJ college. Everything else about my situation meets the requirements. Am I eligible for NJ TAG?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "ga_hope_eligible",
+    "question": "I graduated from a Georgia high school with a 3.2 GPA, completed four full-rigor credits, I'm a Georgia resident and US citizen, and I'm pursuing my first Bachelor's degree at a Georgia college. Am I eligible for the HOPE Scholarship?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "missing_gpa_info",
+    "question": "I'm a California resident applying to a Cal Grant-eligible school for my first undergraduate degree. Am I eligible for Cal Grant A?",
+    "expected_output": "NeedMoreInfo"
+  }
+]
