@@ -5,27 +5,13 @@ Left: the student's question. Right: the validated typed answer. Below: the
 ReAct trace (Thought / Action / Observation), so the retriever-vs-web-search
 choice and the citation are visible, not a black box.
 
-Run:  streamlit run app.py
+Local use only -- reads OPENAI_API_KEY / SEARCH_API_KEY from .env via
+agent.agent's load_dotenv(). Run:  streamlit run app.py
 """
 
 from __future__ import annotations
 
-import os
-
 import streamlit as st
-
-# Streamlit Community Cloud doesn't read .env (gitignored, not deployed) --
-# it exposes secrets via st.secrets instead. Bridge them into the environment
-# BEFORE importing agent.trace, since agent/agent.py builds the Agent (and
-# reads OPENAI_API_KEY) at import time. Locally, .env via load_dotenv already
-# populated these, and st.secrets is just empty, so this is a no-op there.
-try:
-    _secrets = dict(st.secrets)
-except Exception:
-    _secrets = {}  # no secrets.toml at all (e.g. local dev without Streamlit secrets) -- fine
-for _key in ("OPENAI_API_KEY", "SEARCH_API_KEY", "AGENT_MODEL"):
-    if _key not in os.environ and _key in _secrets:
-        os.environ[_key] = _secrets[_key]
 
 from agent.schemas import EligibilityAnswer, NeedMoreInfo
 from agent.trace import run
