@@ -73,16 +73,21 @@ def main():
     st.title("🎓 GrantMatch")
     st.caption("Tells students which scholarships and grants they actually qualify for, citing the exact rule behind each answer.")
 
-    query = st.text_area("Describe your situation and ask about a program", height=100)
+    if "query_input" not in st.session_state:
+        st.session_state.query_input = ""
 
+    # Buttons must be handled BEFORE the bound text_area is instantiated below --
+    # Streamlit forbids setting session_state[key] after that key's widget already
+    # exists in the current run.
     st.write("Try one:")
     cols = st.columns(len(EXAMPLES))
     for col, example in zip(cols, EXAMPLES):
         if col.button(example[:40] + "...", use_container_width=True):
-            query = example
-            st.session_state["query"] = example
+            st.session_state.query_input = example
 
-    query = st.session_state.get("query", query)
+    st.text_area("Describe your situation and ask about a program", height=100, key="query_input")
+
+    query = st.session_state.query_input
     go = st.button("Ask", type="primary")
 
     if go and query.strip():
