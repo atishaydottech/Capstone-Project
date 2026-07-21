@@ -2,8 +2,8 @@
 
 import os
 
-DEFAULT_MODEL = "gpt-4o"
-FAST_MODEL = "gpt-4o-mini"
+DEFAULT_MODEL = "gpt-5.4-mini"
+FAST_MODEL = "gpt-5.4-nano"
 
 
 def _get_client():

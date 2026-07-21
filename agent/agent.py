@@ -25,7 +25,7 @@ load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file_
 from agent.schemas import EligibilityAnswer, NeedMoreInfo
 from agent.tools import retriever_tool, web_search
 
-MODEL = os.getenv("AGENT_MODEL", "openai:gpt-4o")
+MODEL = os.getenv("AGENT_MODEL", "openai:gpt-5.4-mini")
 
 SYSTEM_PROMPT = """\
 You are GrantMatch, a scholarship and grant eligibility assistant. Given a
