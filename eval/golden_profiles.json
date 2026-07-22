@@ -12,6 +12,124 @@
     "expected_eligible": "no"
   },
   {
+    "id": "cal_grant_b_eligible",
+    "question": "My high school GPA is 2.5, I'm a California resident attending a Cal Grant-eligible school, a US citizen, working toward my first undergraduate degree, my GPA is verified with CSAC, and my family's income and assets are within the published limits. Am I eligible for Cal Grant B?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "cal_grant_income_exceeds",
+    "question": "My high school GPA is 3.5, I'm a California resident and US citizen working toward my first undergraduate degree at a Cal Grant-eligible school, and my GPA is verified with CSAC, but my family's income and assets are above CSAC's published ceilings for our family size. Am I eligible for Cal Grant A?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "pell_grant_eligible",
+    "question": "I filed the FAFSA and my Student Aid Index came back around $2,000. I'm enrolled in an undergraduate program, haven't earned a Bachelor's degree yet, I'm a US citizen, and I'm maintaining satisfactory academic progress. Am I eligible for a Federal Pell Grant?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "pell_grant_sai_too_high",
+    "question": "I filed the FAFSA for the 2026-27 award year and my Student Aid Index came back at $16,000. Everything else about my situation is fine. Am I eligible for a Federal Pell Grant?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "pell_grant_already_bachelors",
+    "question": "I already have a Bachelor's degree and I'm going back to school. I filed the FAFSA and my SAI is low. Am I eligible for a Federal Pell Grant for this next program?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "seog_eligible",
+    "question": "I'm enrolled at least half-time in an undergraduate program at a school that participates in FSEOG, I haven't earned a Bachelor's degree, I filed the FAFSA with an exceptionally low SAI, I'm a US citizen, I'm already receiving a Federal Pell Grant, and I'm maintaining satisfactory academic progress. Am I eligible for FSEOG?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "seog_not_half_time",
+    "question": "I'm only enrolled in one class this semester, which is less than half-time. My SAI is very low and I filed the FAFSA. Am I eligible for FSEOG?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "teach_grant_eligible",
+    "question": "My cumulative GPA is 3.4, I'm enrolled in a TEACH-Grant-eligible program that prepares me to teach in a high-need field, I'm willing to sign the Agreement to Serve committing to teach for 4 years within 8 years at a school serving low-income students, and I'll complete the required TEACH Grant counseling. Am I eligible for a TEACH Grant?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "teach_grant_gpa_and_score_fail",
+    "question": "My cumulative GPA is 3.0 and I haven't scored above the 75th percentile on any admissions test. I'm not a current or former teacher. Am I eligible for a TEACH Grant?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "teach_grant_missing_service_info",
+    "question": "My cumulative GPA is 3.5 and I'm enrolled in a TEACH-Grant-eligible program. Am I eligible for a TEACH Grant?",
+    "expected_output": "NeedMoreInfo"
+  },
+  {
+    "id": "bright_futures_eligible",
+    "question": "I completed the 16 required high school credits in the right distribution, my weighted core GPA is 3.6, my SAT is 1350 on Reading/Writing plus Math, I've documented 120 hours of community service through my high school, I submitted my Florida Financial Aid Application senior year, and I'm a Florida resident and US citizen. Am I eligible for the Florida Academic Scholars award under Bright Futures?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "bright_futures_sat_too_low",
+    "question": "My weighted core GPA is 3.6, I've done 120 hours of community service, I submitted my FFAA, and I'm a Florida resident and US citizen, but my SAT is 1250 on Reading/Writing plus Math. Am I eligible for the Florida Academic Scholars award specifically?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "bright_futures_missing_hours",
+    "question": "My weighted core GPA is 3.55, my SAT is 1340 on Reading/Writing plus Math, I completed the required credits, I submitted my FFAA, and I'm a Florida resident and US citizen. Am I eligible for the Florida Academic Scholars award?",
+    "expected_output": "NeedMoreInfo"
+  },
+  {
+    "id": "ga_hope_eligible",
+    "question": "I graduated from a Georgia high school with a 3.2 GPA, completed four full-rigor credits, I'm a Georgia resident and US citizen, and I'm pursuing my first Bachelor's degree at a Georgia college. Am I eligible for the HOPE Scholarship?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "hope_already_bachelors",
+    "question": "I graduated from a Georgia high school with a 3.0 GPA, completed four full-rigor credits, and I'm a Georgia resident and US citizen, but I already hold a Bachelor's degree. Am I eligible for the HOPE Scholarship?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "eof_eligible",
+    "question": "I've lived in New Jersey for 2 years, I come from an educationally and economically disadvantaged background, my family's income is within the EOF Income Eligibility Scale for our family size, I'm a first-generation college student, I graduated high school, and I filed the FAFSA. Am I eligible for the NJ Educational Opportunity Fund?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "eof_income_exceeds",
+    "question": "I've lived in New Jersey for 2 years, I come from an educationally and economically disadvantaged background, I'm a first-generation college student, I graduated high school, and I filed the FAFSA, but my family's income is well above the published EOF Income Eligibility Scale for our family size. Am I eligible for the NJ Educational Opportunity Fund?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "nj_stars_eligible",
+    "question": "I'm a New Jersey resident and a recent NJ high school graduate, my unweighted GPA is 3.2, I ranked in the top 10% of my graduating class, I completed 4 years of English and 3 years of math, and I'm enrolling full-time at a NJ county college. Am I eligible for NJ STARS?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "yes"
+  },
+  {
+    "id": "nj_stars_gpa_fail",
+    "question": "I'm a New Jersey resident and a recent NJ high school graduate, I ranked in the top 12% of my class, I completed the required English and math courses, and I'm enrolling full-time at a NJ county college, but my unweighted GPA is 2.8. Am I eligible for NJ STARS?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "nj_stars_ii_income_exceeds",
+    "question": "I completed my Associate's degree under NJ STARS with a 3.4 GPA, but my household income is $260,000. Am I eligible for NJ STARS II?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
     "id": "nj_tag_eligible",
     "question": "I've lived in New Jersey for 3 years, I'm enrolled full-time at a NJ college in an approved undergraduate program, my household income is $50,000, and I haven't earned a Bachelor's degree yet. Am I eligible for the NJ Tuition Aid Grant?",
     "expected_output": "EligibilityAnswer",
@@ -24,10 +142,33 @@
     "expected_eligible": "no"
   },
   {
-    "id": "ga_hope_eligible",
-    "question": "I graduated from a Georgia high school with a 3.2 GPA, completed four full-rigor credits, I'm a Georgia resident and US citizen, and I'm pursuing my first Bachelor's degree at a Georgia college. Am I eligible for the HOPE Scholarship?",
+    "id": "nj_tag_max_semesters",
+    "question": "I've lived in New Jersey for 3 years, I'm enrolled full-time in an approved undergraduate program, my household income is $55,000, and I haven't earned a Bachelor's degree yet, but I've already received the maximum 4.5 semesters of TAG payments toward my Bachelor's degree. Am I eligible for more NJ TAG?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "nj_tag_missing_income",
+    "question": "I've lived in New Jersey for 2 years, I'm enrolled full-time in an approved undergraduate program, and I haven't earned a Bachelor's degree yet. Am I eligible for NJ TAG?",
+    "expected_output": "NeedMoreInfo"
+  },
+  {
+    "id": "ny_tap_dependent_eligible",
+    "question": "I'm a dependent student, I've lived in New York for 18 months, my family's New York State net taxable income is $95,000, I'm a US citizen, I'm enrolled full-time in an approved undergraduate program at a NY school, I graduated high school, and I filed the FAFSA and the TAP application. Am I eligible for NY TAP?",
     "expected_output": "EligibilityAnswer",
     "expected_eligible": "yes"
+  },
+  {
+    "id": "ny_tap_dependent_income_exceeds",
+    "question": "I'm a dependent student, I've lived in New York for 18 months, I'm a US citizen, I'm enrolled full-time at a NY school, I graduated high school, and I filed the FAFSA and TAP application, but my family's New York State net taxable income is $140,000. Am I eligible for NY TAP?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
+  },
+  {
+    "id": "ny_tap_independent_single_income_exceeds",
+    "question": "I'm an independent student, single with no dependents, I've lived in New York for over a year, I'm a US citizen enrolled full-time at a NY school, and I filed the FAFSA and TAP application, but my New York State net taxable income is $45,000. Am I eligible for NY TAP?",
+    "expected_output": "EligibilityAnswer",
+    "expected_eligible": "no"
   },
   {
     "id": "missing_gpa_info",

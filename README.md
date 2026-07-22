@@ -63,6 +63,17 @@ Pydantic AI was chosen over LangGraph because this project's loop (retrieve, may
 - Check tone is neutral and appropriately cautious on uncertain cases.
 - Manually review borderline/edge-case profiles for nuance.
 
+## Failure Analysis
+
+Real pivots hit during the build, pulled from the commit history:
+
+- **ChromaStore was wiping its own data on every reopen.** The original store deleted and rebuilt the collection every time it was instantiated, so any query-time use of it (the agent, the app) erased what `ingest.py` had just built. Fixed by adding a reset flag: the default is now to reopen an existing collection, and only `python ingest.py` with `reset=True` rebuilds it on purpose.
+- **We assumed the wrong model family.** The design called for `gpt-4o` and `gpt-4o-mini`, but this project's OpenAI key only has access to the `gpt-5.4` family. That showed up as a 403 `model_not_found` error in practice, not something caught at design time. `shared/llm.py` and `agent/agent.py` were switched to `gpt-5.4-mini`, `gpt-5.4-nano`, and `text-embedding-3-small`.
+- **Streamlit Cloud deployment added complexity without paying off.** Getting Streamlit's secrets to reach the environment before `agent.py` builds its agent at import time needed a bridge in `app.py`, since `.env` is gitignored and never reaches Cloud. Once we decided the demo would run locally, we removed that bridge and the dev container files. Confirmed the app still starts clean and serves fine without them.
+- **A Streamlit session-state bug.** Setting `st.session_state.query_input` after the bound text box was already created raised an exception every time someone clicked an example question, and separately caused typed input to silently snap back to the last example on rerun. Fixed by moving the button handling above the text box, so state is set before the widget exists, and binding the box directly to session state instead of reading it with a fallback default.
+- **Hybrid retrieval was built but not adopted into the agent's retriever tool.** `retrieval/hybrid.py` and `bm25_search.py` (dense search plus BM25 via Reciprocal Rank Fusion) are wired into the standalone `rag/pipeline.py` baseline, but at this corpus size (34 chunks from 10 programs) plain vector search isn't a bottleneck, so the MVP scope deliberately left hybrid search, reranking, and query rewriting for later.
+- **The agent loop was first tested against a fake store.** It was built and schema-validated before `pydantic-ai` was even installed in the build environment, so the full loop was unverified end to end for a while. That got closed out once the real dependency was installed and a live run returned a correctly grounded answer citing the actual Cal Grant A clause.
+
 ## Setup
 
 ```bash
@@ -87,4 +98,6 @@ streamlit run app.py
 
 ## Status
 
-In progress, 10-day capstone build.
+Code complete: ingestion, the agent (both tools, typed output, guardrails, tracing), the vanilla RAG baseline, the eval harness, and the UI are all built and in this repo.
+
+`eval/golden_profiles.json` has 30 hand-labeled profiles across all 10 programs. What's still open: running `eval/run_eval.py` and the baseline against that set with real API access, filling in the eligibility/citation/hallucination numbers, and writing a short conclusion on which approach wins and why.
