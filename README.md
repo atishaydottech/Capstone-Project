@@ -42,7 +42,6 @@ User -> Frontend -> ReAct Agent (Pydantic AI + OpenAI)
 - **ChromaDB** - local vector store for retrieved chunks.
 - **Retriever tool** - wraps the vector store as a callable agent tool.
 - **Web search tool** (Tavily / SerpAPI) - second tool, gives the agent a real choice.
-- **Streamlit** - simple front end for the demo.
 
 Pydantic AI was chosen over LangGraph because this project's loop (retrieve, maybe search, answer) doesn't need complex branching, and Pydantic AI's structured output format directly supports the eligibility + citation format this project needs, without a second framework on top.
 
