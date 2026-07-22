@@ -1,14 +1,6 @@
-"""
-Hybrid Search (Dense + Sparse)
-
-Combines dense vector search (ChromaStore, semantic similarity) with BM25
-sparse search (keyword matching) using Reciprocal Rank Fusion (RRF).
-
-Why hybrid, for GrantMatch specifically: a question like "is 3.2 GPA enough
-for Cal Grant A" needs dense search to match "grade point average" phrasing
-variants, but the exact cutoff number (3.2, $2,000, etc.) is a literal token
-BM25 is better at surfacing than an embedding is.
-"""
+# Dense (Chroma) + sparse (BM25) merged with Reciprocal Rank Fusion. Dense
+# catches "GPA" vs "grade point average" phrasing; BM25 catches the literal
+# 3.2 or $2,000 that an embedding tends to blur.
 
 from retrieval.bm25_search import BM25Search
 

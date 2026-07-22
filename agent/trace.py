@@ -1,9 +1,6 @@
-"""Run the GrantMatch agent and turn its message history into a ReAct trace.
-
-Copied from single-agent-lab/trace.py — only the imported agent/schemas and
-the default sample query changed. Everything else (how a Pydantic AI message
-history gets walked into Thought/Action/Observation/Final steps) is identical.
-"""
+"""Run the agent and turn its message history into a ReAct trace: Thought,
+Action, Observation, Final. Pydantic AI hands back the whole history via
+result.all_messages() -- this just walks it and labels the parts."""
 
 from __future__ import annotations
 

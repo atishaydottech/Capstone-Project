@@ -1,12 +1,5 @@
-"""Typed contracts for the GrantMatch agent.
-
-Mirrors single-agent-lab's TravelBriefing / NeedMoreInfo union: the agent's
-final answer is either a grounded EligibilityAnswer or an admission that it
-needs more information. Schema validation (Pydantic) rejects a malformed
-answer before it ever reaches the student; business-logic checks (e.g. a
-citation that's actually empty) are caught separately in agent.py's
-@agent.output_validator.
-"""
+# The agent's final answer is either a grounded EligibilityAnswer or an
+# admission that it needs more info -- see agent.py's output_type union.
 
 from __future__ import annotations
 
@@ -16,9 +9,8 @@ from pydantic import BaseModel, Field
 
 
 class EligibilityAnswer(BaseModel):
-    """A grounded eligibility answer. cited_clause/cited_source must trace
-    back to a real retriever_tool or web_search result — never invented."""
-
+    # cited_clause/cited_source must trace back to a real tool result, not
+    # something the model made up.
     program: str = Field(description="The scholarship or grant program this answer is about")
     eligible: Literal["yes", "no", "partial"] = Field(
         description="'partial' when the student meets some but not all requirements"
@@ -30,9 +22,7 @@ class EligibilityAnswer(BaseModel):
 
 
 class NeedMoreInfo(BaseModel):
-    """Return this INSTEAD of an EligibilityAnswer when eligibility can't be
-    determined — missing student info, or no matching program found by
-    either tool. Say so and ask, rather than guessing."""
-
+    # Returned instead of EligibilityAnswer when we genuinely can't tell --
+    # missing info, or neither tool found the program.
     question: str = Field(description="The one thing needed from the student to proceed")
     reason: str = Field(description="Why eligibility could not be determined from tool results alone")

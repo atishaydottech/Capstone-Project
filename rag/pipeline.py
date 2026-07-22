@@ -1,8 +1,6 @@
 """
-End-to-End RAG Pipeline (smoke test)
-
-Loads the program rule PDFs, chunks them section-wise, indexes into Chroma,
-retrieves, and generates an eligibility answer via OpenAI.
+Loads the program PDFs, chunks section-wise, indexes into Chroma, retrieves,
+answers via OpenAI. Mostly for smoke-testing the RAG side before the agent.
 
 Usage:
     python rag/pipeline.py "Is a 3.2 GPA enough for Cal Grant A?"

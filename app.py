@@ -1,9 +1,6 @@
-"""Streamlit UI — reference-only in spirit from single-agent-lab/app.py (which
-is Gradio); this is a fresh Streamlit build per the design doc, not a port.
-
-Left: the student's question. Right: the validated typed answer. Below: the
-ReAct trace (Thought / Action / Observation), so the retriever-vs-web-search
-choice and the citation are visible, not a black box.
+"""Streamlit front end. Shows the validated answer next to the agent's
+ReAct trace so the retriever-vs-web-search choice and the citation are
+visible instead of a black box.
 
 Local use only -- reads OPENAI_API_KEY / SEARCH_API_KEY from .env via
 agent.agent's load_dotenv(). Run:  streamlit run app.py
@@ -16,8 +13,6 @@ import streamlit as st
 from agent.schemas import EligibilityAnswer, NeedMoreInfo
 from agent.trace import run
 
-ICON = {"thought": "💭", "action": "🔧", "observation": "📡", "retry": "↻", "final": "✅"}
-
 EXAMPLES = [
     "I have a 3.4 GPA, live in California, and this is my first undergraduate degree. Am I eligible for Cal Grant A?",
     "I've lived in New Jersey for 3 years, enrolled full-time, household income $50,000. Am I eligible for NJ TAG?",
@@ -28,8 +23,8 @@ EXAMPLES = [
 
 def render_answer(output):
     if isinstance(output, EligibilityAnswer):
-        badge = {"yes": "🟢 Eligible", "no": "🔴 Not eligible", "partial": "🟡 Partially eligible"}[output.eligible]
-        st.markdown(f"### {badge} — {output.program}")
+        label = {"yes": "Eligible", "no": "Not eligible", "partial": "Partially eligible"}[output.eligible]
+        st.markdown(f"### {label} — {output.program}")
         st.markdown(f"**Cited clause** · {output.cited_clause}")
         st.caption(f"Source: {output.cited_source}")
         st.markdown(f"**Reasoning** · {output.reasoning}")
@@ -38,7 +33,7 @@ def render_answer(output):
             for c in output.caveats:
                 st.markdown(f"- {c}")
     elif isinstance(output, NeedMoreInfo):
-        st.markdown("### 🤔 Need more info")
+        st.markdown("### Need more info")
         st.markdown(f"**Question** · {output.question}")
         st.caption(f"Why: {output.reason}")
     else:
@@ -47,16 +42,15 @@ def render_answer(output):
 
 def render_trace(steps, tool_sequence):
     for s in steps:
-        icon = ICON.get(s.kind, "•")
         with st.container(border=True):
-            st.markdown(f"**{icon} {s.title}**")
+            st.markdown(f"**{s.title}**")
             st.text(s.body)
-    st.caption("Tool sequence: " + (" → ".join(tool_sequence) or "(no tools called)"))
+    st.caption("Tool sequence: " + (" -> ".join(tool_sequence) or "(no tools called)"))
 
 
 def main():
-    st.set_page_config(page_title="GrantMatch", page_icon="🎓", layout="wide")
-    st.title("🎓 GrantMatch")
+    st.set_page_config(page_title="GrantMatch", layout="wide")
+    st.title("GrantMatch")
     st.caption("Tells students which scholarships and grants they actually qualify for, citing the exact rule behind each answer.")
 
     if "query_input" not in st.session_state:

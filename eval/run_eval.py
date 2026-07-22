@@ -1,14 +1,7 @@
-"""Evaluate the GrantMatch agent against eval/golden_profiles.json.
-
-Ships: eligibility accuracy / citation accuracy / hallucination rate --
-adapted from rag-chunking-lab's recall@k / mrr harness (eval/metrics.py) to
-score the agent's final EligibilityAnswer/NeedMoreInfo instead of retrieval
-alone. See eval/metrics.py for how each metric is computed.
-
-golden_profiles.json ships 6 starter cases grounded in the real program
-PDFs in data/programs/. The RUNBOOK calls for 25-30 hand-labeled profiles --
-treat this file as a smoke test, not the real eval set, until it's expanded
-and the expected answers are independently verified against the source docs.
+"""Runs the agent over golden_profiles.json, scores eligibility/citation
+accuracy (see metrics.py). The 6 cases in there are grounded in the real
+program PDFs but are still just a smoke test -- want the real 25-30
+hand-labeled set before trusting these numbers.
 
 Run:  python eval/run_eval.py
 """
@@ -30,9 +23,6 @@ PROGRAMS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fi
 
 
 def _load_source_texts():
-    """{filename: full extracted text}, built straight from the PDFs -- the
-    ground truth citations are checked against, independent of whatever the
-    run's own retrieval happened to pull back."""
     pages = load_all_pdfs(PROGRAMS_DIR)
     texts = {}
     for p in pages:

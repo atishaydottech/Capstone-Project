@@ -1,8 +1,4 @@
-"""Shared constants for wherever the persisted Chroma collection lives.
-
-Single source of truth for ingest.py (writer) and agent/tools.py (reader) so
-they can't silently drift onto different collections/paths.
-"""
+# ingest.py writes here, agent/tools.py reads from here -- keep them in sync.
 
 import os
 

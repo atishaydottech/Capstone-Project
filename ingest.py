@@ -1,10 +1,7 @@
-"""Offline ingestion: load -> section_wise chunk -> OpenAI embed -> ChromaDB.add.
-
-Builds the persisted collection that agent/tools.py's retriever_tool reads
-from at query time. Run this once (and again whenever data/programs/ changes):
-
-    python ingest.py
-"""
+# load -> section_wise chunk -> OpenAI embed -> ChromaDB.add
+#
+# Builds the persisted collection agent/tools.py reads from. Run once, and
+# again whenever data/programs/ changes:  python ingest.py
 
 import os
 

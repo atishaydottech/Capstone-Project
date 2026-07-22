@@ -1,11 +1,5 @@
-"""
-BM25 Sparse Search
-
-Keyword-based retrieval using BM25 (Best Matching 25). Unlike dense
-vector search which captures semantic meaning, BM25 matches on exact
-keywords with TF-IDF weighting. Good at catching exact figures and terms
-(GPA cutoffs, dollar amounts, program names) that embeddings can blur.
-"""
+# BM25 keyword search -- catches exact figures/terms (GPA cutoffs, dollar
+# amounts, program names) that embeddings can blur together.
 
 from rank_bm25 import BM25Okapi
 

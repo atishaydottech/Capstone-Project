@@ -1,15 +1,5 @@
-"""The agent's two tools.
-
-retriever_tool — thin wrapper: embed_query(text) -> ChromaStore.search(embedding, k)
--> list of {text, metadata, score}. This is the "dependent chain" tool from
-single-agent-lab's geocode -> get_forecast pattern: the agent cannot cite a
-clause it didn't actually retrieve, so this is its only path to a real citation.
-
-web_search — second tool, used only when the retriever comes back empty
-(the program isn't in the local corpus of 10 programs). Uses Tavily, per the
-project's tool stack — keyed by SEARCH_API_KEY, unlike single-agent-lab's
-keyless DuckDuckGo search.
-"""
+# The agent's two tools: retriever_tool hits the local Chroma corpus,
+# web_search (Tavily) is the fallback when a program isn't in there.
 
 from __future__ import annotations
 
