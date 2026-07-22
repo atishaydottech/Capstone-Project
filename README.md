@@ -2,6 +2,8 @@
 
 Agentic RAG system that tells students which scholarships and grants they actually qualify for, citing the exact rule behind each answer.
 
+DEMO: https://www.loom.com/share/52453dab43bd488ca2402a83a92e0150
+
 **Group:** G4, GardenState.AI
 **Team:** Atishay Jain, Dinesh Chandramohan
 
